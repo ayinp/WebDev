@@ -8,4 +8,33 @@ div
   overflow: hidden;
   box-sizing: border-box;
 }
-  
+.grid
+{
+  display: Flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  background-color: black;
+  width: 500px;
+  height: 500px;
+  border: 5px solid black;
+  /* padding: 10px; */
+}
+.midBoxes
+{
+  /* box-sizing: border-box;  */
+  display: Flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  background-color: black;
+  width: 33.334%;
+  height: 33.334%;
+  border: 3px solid black;;
+
+}
+.innerBoxes
+{
+  background-color: lightblue;
+  width: 33.334%;
+  height: 33.334%;
+  border: 2px solid black;
+}
