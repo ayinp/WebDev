@@ -1,9 +1,11 @@
- body{
-    background-color:darkgray;
-    padding: 10px;
-} 
- h1{
-    text-align: center;
-    font: bolder;
-    color: black
-} 
+body 
+{
+  margin: 0;
+  padding: 0;
+}
+div 
+{
+  overflow: hidden;
+  box-sizing: border-box;
+}
+  
