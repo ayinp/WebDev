@@ -25,7 +25,6 @@ div
   justify-content: space-evenly;
   background-color: black;
   width: 50%;
-  height: 50%; 
   border: 5px solid black;
   /* padding: 10px; */
 }
@@ -43,8 +42,8 @@ div
 }
 .innerBoxes
 {
-  background-color: lightblue;
+  background-color: whitesmoke;
   width: 33.334%;
-  height: 33.334%;
+  padding-bottom: 33.334%;
   border: 1px solid black;
 }
