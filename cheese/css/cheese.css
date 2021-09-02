@@ -1,6 +1,32 @@
-th {
-    padding: 10px;
+body{
+    background-color: beige;
 }
-a {
+table{
+    table-layout: fixed;
+    width: 100%;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+th, td{
+    text-align: center;
+    border: 2px solid black
+}
+a{
     color: Black;
+    text-decoration: none;
+}
+a:hover{
+    color: gold;
+    text-decoration: underline;
+}
+h1, h2{
+    text-align: center;
+}
+figure{
+    border: 2px dotted black;
+    text-align: center;
+}
+img{
+    align-self: center;
+    padding: 10px;
 }
