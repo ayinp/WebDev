@@ -1,11 +1,12 @@
 body{
-    background-color: beige;
+    background-color: #fffacd;
 }
 table{
     table-layout: fixed;
     width: 100%;
     border: 2px solid black;
     border-collapse: collapse;
+    padding-bottom: 10px;
 }
 th, td{
     text-align: center;
@@ -25,8 +26,61 @@ h1, h2{
 figure{
     border: 2px dotted black;
     text-align: center;
+    background-color: lightgoldenrodyellow;
+    border-radius: 30px;
 }
 img{
     align-self: center;
     padding: 10px;
+}
+.page{
+    display:flex;
+    width: 100%;
+    height: 100%;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+.title{
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    flex-flow: row wrap;
+    width:100%;
+    background-color: #ffff66;
+    border-radius: 10% / 50%;
+}
+.lists{
+    display:flex;
+    width: 33%;
+    /* border: 2px solid black; */
+    align-content: center;
+    justify-content: center;
+    flex-flow: row wrap;
+    background-color:khaki;
+    border-radius: 50% 20% / 10% 40%;
+}
+.data{
+    display:flex;
+    width: 64%;
+    /* border: 2px solid black; */
+    align-content: center;
+    justify-content: center;
+    flex-flow: row wrap;
+    padding: 5px;
+    background-color: #fdfd96;
+    border-radius:  30% 30% 10% 10%;
+}
+.favorites{
+    display:flex;
+    width: 49%;
+    align-content: center;
+    justify-content: center;
+    flex-flow: column wrap;
+}
+.wierd{
+    display:flex;
+    width: 49%;
+    align-content: center;
+    justify-content: center;
+    flex-flow: column wrap;
 }
