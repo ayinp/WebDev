@@ -1,0 +1,43 @@
+body 
+{
+  margin: 0;
+  padding: 0;
+}
+div 
+{
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.page{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    background-color: darkorange;
+}
+.boxes{
+    display: flex;
+    width: 59%;
+    height: 100%; 
+    flex-flow: column wrap; 
+    justify-content: center;
+    align-content: center;
+    background-color: darkcyan;
+}
+.buttons{
+    display: flex;
+    width: 39%;
+    height: 100%; 
+    flex-flow: column wrap;
+    background-color: chocolate;
+}
+.cardBox{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    height: 50%;
+    width: 90%;
+    background-color: darkorchid;
+}
