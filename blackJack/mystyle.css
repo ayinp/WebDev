@@ -1,43 +1,58 @@
-body 
-{
+body {
   margin: 0;
   padding: 0;
+  background-color: rgb(255, 225, 142);
 }
-div 
-{
+div {
+  overflow: hidden;
+  box-sizing: border-box;
+}
+main{
   overflow: hidden;
   box-sizing: border-box;
 }
 .page{
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-    background-color: darkorange;
-}
-.boxes{
-    display: flex;
-    width: 59%;
-    height: 100%; 
-    flex-flow: column wrap; 
-    justify-content: center;
-    align-content: center;
-    background-color: darkcyan;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
 }
 .buttons{
-    display: flex;
-    width: 39%;
-    height: 100%; 
-    flex-flow: column wrap;
-    background-color: chocolate;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+
+  border: 2px solid red;
+  width: 25%;
+  padding: 10px;
 }
-.cardBox{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-content: center;
-    height: 50%;
-    width: 90%;
-    background-color: darkorchid;
+.cards{
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  
+  border: 2px solid red;
+  width: 65%;
+  padding: 10px;
+}
+.player{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-content: center;
+  
+  border: 2px solid blue;
+  width: 90%;
+
+}
+.opponent{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-content: center;
+
+  border: 2px solid blue;
+  width: 90%;
 }
