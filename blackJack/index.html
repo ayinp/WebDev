@@ -15,18 +15,22 @@
     <body>
         <main class = "page">
             <section class = "cards">
-                <section class = "player">
-                    <img src="images/card.png" alt="back of playing card" width="140" height="200">
-                    <img src="images/card.png" alt="back of playing card" width="140" height="200">
+                <section id = "playerHand" class = "player">
+
                 </section>
-                <section class = "opponent">
-                    <img src="images/card.png" alt="back of playing card" width="140" height="200">
-                    <img src="images/card.png" alt="back of playing card" width="140" height="200">
+                <section id = "houseHand" class = "opponent">
+                    
                 </section>
             </section>
             <section class = "buttons">
-                <img onClick="randCard(deck)" src="images/button.png" alt="hit" width="250" height="100">
-                <img src="images/button.png" alt="stand" width="250" height="100">
+                <a>
+                <img  src="images/hitButton.png" alt="hit" width="140" height="60"/>
+                <img onClick="dealToHand(playerHand, deck, 1, 'player' )" src="images/hitButtonSel.png" alt="hit" width="140" height="60"/>
+                </a>
+                <a>
+                <img src="images/standButton.png" alt="stand" width="140" height="60" />
+                <img src="images/standButtonSel.png" alt="stand" width="140" height="60" />
+                </a>
             </section>
         </main>  
     </body>

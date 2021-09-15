@@ -56,3 +56,12 @@ main{
   border: 2px solid blue;
   width: 90%;
 }
+a img:last-child {
+  display: none;  
+}
+a:hover img:last-child {
+  display: block;  
+}
+a:hover img:first-child {
+  display: none;  
+}
