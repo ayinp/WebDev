@@ -56,6 +56,15 @@ main{
   border: 2px solid blue;
   width: 90%;
 }
+.result{
+  display: flex;
+  flex-flow: row, wrap;
+  justify-content: center;
+  align-content: center;
+
+  width: 95%;
+  border: 2px solid black;
+}
 a img:last-child {
   display: none;  
 }
