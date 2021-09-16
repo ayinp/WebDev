@@ -35,12 +35,18 @@ function dealToHand(hand, deck, numOfCards, player) {
     console.log(handValue(playerHand));
 }
 
-function setCard(card) {
+function setCard(card, id) {
     let cardEl = document.createElement("img");
+    let cards = document.getElementById(id);
     cardEl.setAttribute("src", ("images/cards/" + card.rank + "Of" + card.suit + ".png"));
     cardEl.setAttribute("alt", card.rank + " of " + card.suit);
     cardEl.setAttribute("style", "width:125px;");
     cardEl.setAttribute("style", "height:175px;");
+    if(id === "houseHand"){
+        cardEl.style.backfaceVisability = "hidden";
+        cardEl.style.rotate = "180";
+    }
+    cards.appendChild(cardEl);
     return cardEl;
 }
 
@@ -55,8 +61,7 @@ function displayHand(hand, person) {
     }
     console.log(id);
     for (let card of hand) {
-        let cards = document.getElementById(id);
-        cards.appendChild(setCard(card));
+        setCard(card, id);
     }
 }
 
