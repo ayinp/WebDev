@@ -30,10 +30,12 @@ function dealToHand(hand, deck, numOfCards, player) {
     for (let i = 0; i < numOfCards; i++) {
         card = [randCard(deck)];
         hand.push(card[0]);
-        displayHand(card, player);
+        displayHand(card, player);  // call the new displayCard function instead of displayHand
     }
     console.log(handValue(playerHand));
 }
+
+// create displayCard function
 
 function displayHand(hand, person) { /*1 = player, 0 = dealer */
     if (person === "player") {
@@ -43,7 +45,7 @@ function displayHand(hand, person) { /*1 = player, 0 = dealer */
         id = "houseHand";
     }
     console.log(id);
-    for (let i = 0; i < hand.length; i++) {
+    for (let i = 0; i < hand.length; i++) {  // use "of" style for loop
         let card = document.createElement("img");
         card.setAttribute("src", ("images/cards/" + hand[i].rank + "Of" + hand[i].suit + ".png"));
         card.setAttribute("alt", hand[i].rank + " of " + hand[i].suit);
@@ -81,6 +83,7 @@ function housePlay() {
     }
 }
 
+// this function could be generalized to something like "addParagraph(result, msg)"
 function printWinOrLoss(win) {
     let text = document.createElement("p");
     if (win) {
@@ -98,6 +101,7 @@ function endGame() {
     let houseScore = handValue(houseHand);
     let playerScore = handValue(playerHand);
     let win = false;
+    // should there be different messages?  
     if (playerScore <= 21 && (playerScore > houseScore || houseScore > 21)) {
         // window.location.href = "win.html";
         win = true;
@@ -108,6 +112,7 @@ function endGame() {
     }
     else if (houseScore === playerScore || (houseScore > 21 && playerScore > 21)) {
         let x = Math.floor(Math.random() * 2)
+        // why not:  win = x > 1;
         if (x > 1) {
             // window.location.href = "win.html";
             win = true;
