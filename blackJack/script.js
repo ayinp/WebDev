@@ -30,14 +30,23 @@ function dealToHand(hand, deck, numOfCards, player) {
     for (let i = 0; i < numOfCards; i++) {
         card = [randCard(deck)];
         hand.push(card[0]);
-        displayHand(card, player);  // call the new displayCard function instead of displayHand
+        displayHand(card, player);
     }
     console.log(handValue(playerHand));
 }
 
+function setCard(card) {
+    let cardEl = document.createElement("img");
+    cardEl.setAttribute("src", ("images/cards/" + card.rank + "Of" + card.suit + ".png"));
+    cardEl.setAttribute("alt", card.rank + " of " + card.suit);
+    cardEl.setAttribute("style", "width:125px;");
+    cardEl.setAttribute("style", "height:175px;");
+    return cardEl;
+}
+
 // create displayCard function
 
-function displayHand(hand, person) { /*1 = player, 0 = dealer */
+function displayHand(hand, person) {
     if (person === "player") {
         id = "playerHand";
     }
@@ -45,14 +54,9 @@ function displayHand(hand, person) { /*1 = player, 0 = dealer */
         id = "houseHand";
     }
     console.log(id);
-    for (let i = 0; i < hand.length; i++) {  // use "of" style for loop
-        let card = document.createElement("img");
-        card.setAttribute("src", ("images/cards/" + hand[i].rank + "Of" + hand[i].suit + ".png"));
-        card.setAttribute("alt", hand[i].rank + " of " + hand[i].suit);
-        card.setAttribute("style", "width:125px;");
-        card.setAttribute("style", "height:175px;");
+    for (let card of hand) {
         let cards = document.getElementById(id);
-        cards.appendChild(card);
+        cards.appendChild(setCard(card));
     }
 }
 
@@ -83,16 +87,10 @@ function housePlay() {
     }
 }
 
-// this function could be generalized to something like "addParagraph(result, msg)"
-function printWinOrLoss(win) {
+function addParagraph(place, msg) {
     let text = document.createElement("p");
-    if (win) {
-        text.textContent = " win!! ";
-    }
-    else if (!win) {
-        text.textContent = " loss :( ";
-    }
-    let result = document.getElementById("result");
+    text.textContent = msg;
+    let result = document.getElementById(place);
     result.appendChild(text);
 }
 
@@ -103,46 +101,46 @@ function endGame() {
     let win = false;
     // should there be different messages?  
     if (playerScore <= 21 && (playerScore > houseScore || houseScore > 21)) {
-        // window.location.href = "win.html";
-        win = true;
+        addParagraph("result", " Win! ");
     }
     else if (houseScore <= 21 && (houseScore > playerScore || playerScore > 21)) {
-        // window.location.href = "loss.html"
-        win = false;
+        addParagraph("result", " loss :( ");
     }
     else if (houseScore === playerScore || (houseScore > 21 && playerScore > 21)) {
         let x = Math.floor(Math.random() * 2)
         // why not:  win = x > 1;
         if (x > 1) {
-            // window.location.href = "win.html";
-            win = true;
+            addParagraph("result", " Win! ");
         }
         else {
-            // window.location.href = "loss.html";
-            win = false;
+            addParagraph("result", " loss :( ");
         }
     }
-    printWinOrLoss(win);
+}
+
+function playAgain() {
     resetUI();
     resetLogic();
 }
 
-function resetUI(){
+function resetUI() {
     let playerHand = document.getElementById("playerHand");
     let houseHand = document.getElementById("houseHand");
+    let result = document.getElementById("result");
     removeChild(playerHand);
     removeChild(houseHand);
+    removeChild(result);
     console.log("UI RESET, CODE RED");
 }
 
 
-function removeChild(childHolder){
-    while(childHolder.firstChild){
+function removeChild(childHolder) {
+    while (childHolder.firstChild) {
         childHolder.removeChild(childHolder.lastChild);
     }
 }
 
-function resetLogic(){
+function resetLogic() {
     let newDeck = buildDeck();
     deck = newDeck;
     playerHand = [];

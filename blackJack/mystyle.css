@@ -21,7 +21,7 @@ main{
   display: flex;
   flex-flow: column wrap;
   justify-content: space-evenly;
-  align-content: space-evenly;
+  align-content: center;
 
   border: 2px solid red;
   width: 25%;
@@ -74,3 +74,4 @@ a:hover img:last-child {
 a:hover img:first-child {
   display: none;  
 }
+

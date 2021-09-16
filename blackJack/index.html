@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <link rel="stylesheet" href="mystyle.css">
 
@@ -12,29 +13,34 @@
 
 </head>
 <html>
-    <body>
-        <main class = "page">
-            <section class = "cards">
-                <section id = "playerHand" class = "player">
 
-                </section>
-                <section id = "houseHand" class = "opponent">
-                    
-                </section>
+<body>
+    <main class="page">
+        <section class="cards">
+            <section id="houseHand" class="opponent">
+
             </section>
-            <section class = "buttons">
-                <a>
-                <img onClick="hit()" src="images/hitButton.png" alt="hit" width="140" height="60"/>
-                <img onClick="hit()" src="images/hitButtonSel.png" alt="hit" width="140" height="60"/>
-                </a>
-                <a>
+            <section id="playerHand" class="player">
+
+            </section>
+        </section>
+        <section class="buttons">
+            <a>
+                <img onClick="hit()" src="images/hitButton.png" alt="hit" width="140" height="60" />
+                <img onClick="hit()" src="images/hitButtonSel.png" alt="hit" width="140" height="60" />
+            </a>
+            <a>
                 <img onClick="endGame()" src="images/standButton.png" alt="stand" width="140" height="60" />
                 <img onClick="endGame()" src="images/standButtonSel.png" alt="stand" width="140" height="60" />
-                </a>
-            </section>
-            <section id = "result" class = "result">
+            </a>
+            <a>
+            <img onClick="playAgain()" src="images/playAgainButton.png" alt="stand" width="240" height="60" />
+            <img onClick="playAgain()" src="images/playAgainButtonSel.png" alt="stand" width="240" height="60" />
+            </a>
+        </section>
+        <section id="result" class="result">
+        </section>
+    </main>
+</body>
 
-            </section>
-        </main>  
-    </body>
 </html>
