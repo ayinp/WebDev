@@ -43,8 +43,8 @@ function setCard(card, id) {
     cardEl.setAttribute("style", "width:125px;");
     cardEl.setAttribute("style", "height:175px;");
     if(id === "houseHand"){
-        cardEl.style.backfaceVisability = "hidden";
-        cardEl.style.rotate = "180";
+        cardEl.style.backfaceVisibility = "hidden";
+        cardEl.style.transform = "rotateY(180deg)";
     }
     cards.appendChild(cardEl);
     return cardEl;
