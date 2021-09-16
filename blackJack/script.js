@@ -48,7 +48,7 @@ function displayHand(hand, person) { /*1 = player, 0 = dealer */
         card.setAttribute("src", ("images/cards/" + hand[i].rank + "Of" + hand[i].suit + ".png"));
         card.setAttribute("alt", hand[i].rank + " of " + hand[i].suit);
         card.setAttribute("style", "width:125px;");
-        card.setAttribute("style", "height:175px;")
+        card.setAttribute("style", "height:175px;");
         let cards = document.getElementById(id);
         cards.appendChild(card);
     }
@@ -75,22 +75,22 @@ function handValue(hand) {
     return score;
 }
 
-function housePlay(){
-    if(handValue(houseHand) < 15){
+function housePlay() {
+    if (handValue(houseHand) < 15) {
         dealToHand(houseHand, deck, 1, "house");
     }
 }
 
-function printWinOrLoss(win){
+function printWinOrLoss(win) {
     let text = document.createElement("p");
-    if(win){
-        text.textContent = "win!!";
+    if (win) {
+        text.textContent = " win!! ";
     }
-    else if(!win){
-        text.textContent = "loss :(";
+    else if (!win) {
+        text.textContent = " loss :( ";
     }
-        let result = document.getElementById("result");
-        result.appendChild(text);
+    let result = document.getElementById("result");
+    result.appendChild(text);
 }
 
 function endGame() {
@@ -118,11 +118,36 @@ function endGame() {
         }
     }
     printWinOrLoss(win);
-
+    resetUI();
+    resetLogic();
 }
 
-function animate() {
-    requestAnimationFrame(animate);
+function resetUI(){
+    let playerHand = document.getElementById("playerHand");
+    let houseHand = document.getElementById("houseHand");
+    removeChild(playerHand);
+    removeChild(houseHand);
+    console.log("UI RESET, CODE RED");
+}
+
+
+function removeChild(childHolder){
+    while(childHolder.firstChild){
+        childHolder.removeChild(childHolder.lastChild);
+    }
+}
+
+function resetLogic(){
+    let newDeck = buildDeck();
+    deck = newDeck;
+    playerHand = [];
+    houseHand = [];
+    dealToHand(playerHand, deck, 2, "player");
+    dealToHand(houseHand, deck, 2, "dealer");
+}
+
+function hit() {
+    dealToHand(playerHand, deck, 1, "player");
     if (handValue(playerHand) > 21) {
         endGame();
     }
@@ -135,4 +160,3 @@ dealToHand(houseHand, deck, 2, "dealer");
 console.log(playerHand);
 console.log(houseHand);
 console.log(handValue(playerHand));
-animate();
