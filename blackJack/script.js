@@ -35,19 +35,38 @@ function dealToHand(hand, deck, numOfCards, player) {
     console.log(handValue(playerHand));
 }
 
-function setCard(card, id) {
+function dealToHandInitial(hand, deck, numOfCards, player) {
+    let card = [];
+    for (let i = 1; i < numOfCards; i++) {
+        card = [randCard(deck)];
+        hand.push(card[0]);
+        displayHand(card, player);
+    }
+    console.log(handValue(playerHand));
+}
+
+function setCard(card, id, firstCard) {
     let cardEl = document.createElement("img");
+    let backCard = document.createElement("img");
     let cards = document.getElementById(id);
-    cardEl.setAttribute("src", ("images/cards/" + card.rank + "Of" + card.suit + ".png"));
-    cardEl.setAttribute("alt", card.rank + " of " + card.suit);
-    cardEl.setAttribute("style", "width:125px;");
-    cardEl.setAttribute("style", "height:175px;");
-    if(id === "houseHand"){
+    if (firstCard === true) {
         cardEl.style.backfaceVisibility = "hidden";
         cardEl.style.transform = "rotateY(180deg)";
+        backCard.setAttribute("src", "images/backOfCard.png");
+        backCard.setAttribute("alt", "back of card");
+        backCard.setAttribute("style", "width:125px;");
+        backCard.setAttribute("style", "height:175px;");
+        cards.appendChild(backCard);
+        return backCard;
     }
-    cards.appendChild(cardEl);
-    return cardEl;
+    else {
+        cardEl.setAttribute("src", ("images/cards/" + card.rank + "Of" + card.suit + ".png"));
+        cardEl.setAttribute("alt", card.rank + " of " + card.suit);
+        cardEl.setAttribute("style", "width:125px;");
+        cardEl.setAttribute("style", "height:175px;");
+        cards.appendChild(cardEl);
+        return cardEl;
+    }
 }
 
 // create displayCard function
@@ -60,10 +79,13 @@ function displayHand(hand, person) {
         id = "houseHand";
     }
     console.log(id);
-    for (let card of hand) {
-        setCard(card, id);
+    // HELP WHY HE NO WORK
+    setCard(hand[0], id, true);
+    for (let i = 1; i <= hand.length; i++) {
+        setCard(hand[i], id, false);
     }
 }
+//after get this working make card flip back over and remove back of card image in endgame
 
 function cardValue(card) {
     return Math.min(ranks.indexOf(card.rank) + 1, 10);
