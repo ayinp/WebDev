@@ -11,6 +11,9 @@ main{
   overflow: hidden;
   box-sizing: border-box;
 }
+img{
+  padding: 10px;
+}
 .page{
   display: flex;
   flex-flow: row wrap;
@@ -42,7 +45,10 @@ main{
   align-content: center;
   
   width: 90%;
-
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius:  30% 10% 30% 10%;
+  background-color: orange;
 }
 .opponent{
   display: flex;
@@ -51,6 +57,10 @@ main{
   align-content: center;
 
   width: 90%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius:  30% 10% 30% 10%;
+  background-color: orange;
 }
 .result{
   display: flex;
@@ -69,4 +79,6 @@ a:hover img:last-child {
 a:hover img:first-child {
   display: none;  
 }
-
+#playAgain{
+  visibility: hidden;
+}
