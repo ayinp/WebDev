@@ -130,7 +130,6 @@ function endGame() {
         }
         let houseScore = handValue(houseHand);
         displayHand(houseHand, "house", true);
-        // should there be different messages?
         if (playerScore <= 21 && (playerScore > houseScore || houseScore > 21)) {
             addParagraph("result", " Win !! ");
             body.style.backgroundColor = "rgb(159, 252, 159)";

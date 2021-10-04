@@ -33,15 +33,15 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.post('/command', (req, res) => {
     if(req.body.command === "hit"){
         //hit logic
-        res.send("I should have hit");
+        res.json(hit());
     }
     else if(req.body.command === "stand"){
         //stand logic
-        res.send("I should have standed");
+        res.json(endGame());
     }
     else if(req.body.command === "reset"){
         //reset logic
-        res.send("I should have resetttteedddd");
+        res.json(playAgain);
     }
     console.log(req.body);
     // res.json({command:"Reset"});
@@ -52,6 +52,8 @@ app.post('/command', (req, res) => {
 app.listen(port, () => {
     console.log(`BlackJack Server at http://localhost:${port}`)
 });
+
+
 
 
 // GAME LOGIC
@@ -86,7 +88,7 @@ function dealToHand(hand, deck, numOfCards, player) {
         let card = randCard(deck);
         hand.push(card);
     }
-    displayHand(hand, player);
+    // displayHand(hand, player);
     console.log(handValue(playerHand));
 }
 
@@ -136,15 +138,69 @@ function hit() {
     if (playing === true) {
         dealToHand(playerHand, deck, 1, "player");
         if (handValue(playerHand) >= 21) {
-            endGame();
+            return endGame();
+            console.log("gay?");
         }
     }
+    return {player:playerHand, dealer:houseHand, playing:true, status:"no comment"};
 }
 
 function earlyWinner() {
     if (handValue(playerHand) >= 21 || handValue(houseHand) >= 21) {
-        endGame();
+        return endGame();
     }
+}
+
+function endGame() {
+    // let body = document.body;
+    let status = "";
+    if (playing === true) {
+        let playerScore = handValue(playerHand);
+        if (playerScore < 21) {
+            housePlay();
+        }
+        let houseScore = handValue(houseHand);
+        // displayHand(houseHand, "house", true);
+        if (playerScore <= 21 && (playerScore > houseScore || houseScore > 21)) {
+            // addParagraph("result", " Win !! ");
+            // body.style.backgroundColor = "rgb(159, 252, 159)";
+            playing = false;
+            status = "win";
+        }
+        else if (houseScore <= 21 && houseScore > playerScore) {
+            // addParagraph("result", " loss :( ");
+            // body.style.backgroundColor = "rgb(253, 122, 129)";
+            playing = false;
+            status = "loss";
+        }
+        else if (houseScore <= 21 && playerScore > 21) {
+            // addParagraph("result", " bust D: ");
+            // body.style.backgroundColor = "rgb(122, 168, 253)";
+            playing = false;
+            status = "bust";
+        }
+        else if (houseScore === playerScore) {
+            // addParagraph("result", " push :/ ");
+            // body.style.backgroundColor = "rgb(216, 122, 253)";
+            playing = false;
+            status = "push";
+        }
+        else {
+            // addParagraph("result", " ERROR ");
+            // body.style.backgroundColor = "rgb(255, 255, 255)";
+            playing = false;
+            status = "error";
+        }
+    }
+    else {
+        console.log("oops");
+        status = "oops";
+    }
+
+    return {player:playerHand, house:houseHand, plyaying:playing, status:status};
+
+    // button = document.getElementById("playAgain");
+    // button.style.visibility = "visible";
 }
 
 // playAgain();
