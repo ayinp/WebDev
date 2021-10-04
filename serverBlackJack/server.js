@@ -138,11 +138,11 @@ function hit() {
     if (playing === true) {
         dealToHand(playerHand, deck, 1, "player");
         if (handValue(playerHand) >= 21) {
-            return endGame();
             console.log("gay?");
+            return endGame();
         }
     }
-    return {player:playerHand, dealer:houseHand, playing:true, status:"no comment"};
+    return {player:playerHand, dealer:houseHand, playing:plaing, status:"no comment"};
 }
 
 function earlyWinner() {
@@ -196,9 +196,9 @@ function endGame() {
         console.log("oops");
         status = "oops";
     }
+    console.log(playing);
 
     return {player:playerHand, house:houseHand, plyaying:playing, status:status};
-
     // button = document.getElementById("playAgain");
     // button.style.visibility = "visible";
 }
