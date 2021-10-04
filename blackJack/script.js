@@ -213,7 +213,7 @@ function hit() {
 }
 
 function earlyWinner() {
-    if (handValue(playerHand) === 21 || handValue(houseHand) === 21) {
+    if (handValue(playerHand) >= 21 || handValue(houseHand) >= 21) {
         endGame();
     }
 }
