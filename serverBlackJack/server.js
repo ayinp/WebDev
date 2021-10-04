@@ -142,7 +142,7 @@ function hit() {
             return endGame();
         }
     }
-    return {player:playerHand, dealer:houseHand, playing:plaing, status:"no comment"};
+    return {player:playerHand, dealer:houseHand, playing:playing, status:"no comment"};
 }
 
 function earlyWinner() {
