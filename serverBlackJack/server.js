@@ -9,48 +9,51 @@ const path = require('path');
 const { receiveMessageOnPort } = require('worker_threads');
 //const { send } = require('process');
 app.use('/', express.static(path.join(__dirname, 'public')));
+var session = require('express-session');
 
-// app.get('/', (req, res) => {
-//   res.write('hello');
-//   res.end();
-// });
+// Use the session middleware
+app.use(session({
+    secret: 'keyboard cat',
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false
+}));
 
-// app.post('/hit', (req, res) => {
-//     console.log(req.body);
-//     res.json({command: "Hit"});
-// });
+app.use(function (req, res, next) {
+    if (req.session.game === undefined) {
+        let deck = buildDeck();
+        let playerHand = [];
+        dealToHand(playerHand, deck, 2);
+        let houseHand = [];
+        dealToHand(houseHand, deck, 2);
+        let playing = true;
 
-// app.post('/stand', (req, res) => {
-//     console.log(req.body);
-//     res.json({command: "Stand"});
-// })
+        req.session.game = {deck: deck, playerHand: playerHand, houseHand: houseHand, playing: playing};
+    }
+    next();
+});
 
-// app.post('/reset', (req, res) => {
-//     console.log(req.body);
-//     res.json({command:"Reset"});
-// })
 
 app.post('/command', (req, res) => {
-    if(req.body.command === "hit"){
+    if (req.body.command === "hit") {
         //hit logic
-        res.json(hit());
+        res.json(hit(req.session.game));
     }
-    else if(req.body.command === "stand"){
+    else if (req.body.command === "stand") {
         //stand logic
-        res.json(endGame());
+        res.json(endGame(req.session.game));
     }
-    else if(req.body.command === "reset"){
+    else if (req.body.command === "reset") {
         //reset logic
         res.json(playAgain);
     }
-    console.log(req.body);
     // res.json({command:"Reset"});
 })
 
 
 
 app.listen(port, () => {
-    console.log(`BlackJack Server at http://localhost:${port}`)
+    console.log(`http://localhost:${port}`);
 });
 
 
@@ -61,10 +64,6 @@ app.listen(port, () => {
 const suits = ["Clubs", "Hearts", "Diamonds", "Spades"];
 const ranks = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven",
     "Eight", "Nine", "Ten", "Jack", "Queen", "King"];
-let deck = buildDeck();
-let playerHand = [];
-let houseHand = [];
-let playing = true;
 
 function buildDeck() {
     let deck = [];
@@ -83,13 +82,12 @@ function randCard(deck) {
     return card;
 }
 
-function dealToHand(hand, deck, numOfCards, player) {
+function dealToHand(hand, deck, numOfCards, /*player*/) {
     for (let i = 0; i < numOfCards; i++) {
         let card = randCard(deck);
         hand.push(card);
     }
     // displayHand(hand, player);
-    console.log(handValue(playerHand));
 }
 
 function cardValue(card) {
@@ -113,9 +111,9 @@ function handValue(hand) {
     return score;
 }
 
-function housePlay() {
-    if (handValue(houseHand) < 17) {
-        dealToHand(houseHand, deck, 1, "house");
+function housePlay(game) {
+    if (handValue(game.houseHand) < 17) {
+        dealToHand(game.houseHand, game.deck, 1);
     }
 }
 
@@ -134,32 +132,31 @@ function resetLogic() {
     playing = true;
 }
 
-function hit() {
-    if (playing === true) {
-        dealToHand(playerHand, deck, 1, "player");
-        if (handValue(playerHand) >= 21) {
-            console.log("gay?");
-            return endGame();
+function hit(game) {
+    if (game.playing === true) {
+        dealToHand(game.playerHand, game.deck, 1, "player");
+        if (handValue(game.playerHand) >= 21) {
+            return endGame(game);
         }
     }
-    return {player:playerHand, dealer:houseHand, playing:playing, status:"no comment"};
+    return { player: game.playerHand, playing: game.playing, status: "no comment" };
 }
 
-function earlyWinner() {
+function earlyWinner(game) {
     if (handValue(playerHand) >= 21 || handValue(houseHand) >= 21) {
-        return endGame();
+        return endGame(game);
     }
 }
 
-function endGame() {
+function endGame(game) {
     // let body = document.body;
     let status = "";
-    if (playing === true) {
-        let playerScore = handValue(playerHand);
+    if (game.playing === true) {
+        let playerScore = handValue(game.playerHand);
         if (playerScore < 21) {
-            housePlay();
+            housePlay(game);
         }
-        let houseScore = handValue(houseHand);
+        let houseScore = handValue(game.houseHand);
         // displayHand(houseHand, "house", true);
         if (playerScore <= 21 && (playerScore > houseScore || houseScore > 21)) {
             // addParagraph("result", " Win !! ");
@@ -193,12 +190,9 @@ function endGame() {
         }
     }
     else {
-        console.log("oops");
         status = "oops";
     }
-    console.log(playing);
-
-    return {player:playerHand, house:houseHand, plyaying:playing, status:status};
+    return { player: game.playerHand, house: game.houseHand, plyaying: playing, status: status };
     // button = document.getElementById("playAgain");
     // button.style.visibility = "visible";
 }
