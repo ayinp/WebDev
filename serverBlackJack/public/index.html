@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,16 +8,59 @@
 </head>
 <body>
     <form action="command" method=post>
-        <!-- <input type="hidden" name="command" value="hit"> -->
         <input type="submit" name="command" value="hit">
     </form>
     <form action="command" method=post>
-        <!-- <input type="hidden" name="command" value="stand"> -->
         <input type="submit" name="command" value="stand">
     </form>
     <form action="command" method=post>
-        <!-- <input type="hidden" name="command" value="reset"> -->
         <input type="submit" name="command" value="reset">
     </form>
 </body>
+</html> -->
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+
+    <script defer src="script.js"></script>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>blackJack</title>
+
+</head>
+<html>
+
+<body>
+    <main class="page">
+        <section class="cards">
+            <section id="houseHand" class="opponent">
+
+            </section>
+            <section id="playerHand" class="player">
+
+            </section>
+        </section>
+        <section class="buttons">
+            <a>
+                <img onClick="hit()" src="images/hitButton.png" alt="hit" width="140" height="60" />
+                <img onClick="hit()" src="images/hitButtonSel.png" alt="hit" width="140" height="60" />
+            </a>
+            <a>
+                <img onClick="stand()" src="images/standButton.png" alt="stand" width="140" height="60" />
+                <img onClick="stand()" src="images/standButtonSel.png" alt="stand" width="140" height="60" />
+            </a>
+            <a id = "playAgain">
+            <img onClick="playAgain()" src="images/playAgainButton.png" alt="stand" width="240" height="60" />
+            <img onClick="playAgain()" src="images/playAgainButtonSel.png" alt="stand" width="240" height="60" />
+            </a>
+        </section>
+        <section id="result" class="result">
+        </section>
+    </main>
+</body>
+
 </html>

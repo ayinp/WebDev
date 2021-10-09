@@ -45,7 +45,7 @@ app.post('/command', (req, res) => {
     }
     else if (req.body.command === "reset") {
         //reset logic
-        res.json(playAgain);
+        res.json(playAgain(req.session.game));
     }
     // res.json({command:"Reset"});
 })
@@ -117,19 +117,20 @@ function housePlay(game) {
     }
 }
 
-function playAgain() {
+function playAgain(game) {
     // resetUI();
-    resetLogic();
+    return resetLogic(game);
 }
 
-function resetLogic() {
+function resetLogic(game) {
     let newDeck = buildDeck();
-    deck = newDeck;
-    playerHand = [];
-    houseHand = [];
-    dealToHand(playerHand, deck, 2, "player");
-    dealToHand(houseHand, deck, 2, "dealer");
-    playing = true;
+    game.deck = newDeck;
+    game.playerHand = [];
+    game.houseHand = [];
+    dealToHand(game.playerHand, game.deck, 2, "player");
+    dealToHand(game.houseHand, game.deck, 2, "dealer");
+    game.playing = true;
+    return game;
 }
 
 function hit(game) {
@@ -139,7 +140,7 @@ function hit(game) {
             return endGame(game);
         }
     }
-    return { player: game.playerHand, playing: game.playing, status: "no comment" };
+    return { playerHand: game.playerHand, playing: game.playing, status: "no comment" };
 }
 
 function earlyWinner(game) {
@@ -192,7 +193,7 @@ function endGame(game) {
     else {
         status = "oops";
     }
-    return { player: game.playerHand, house: game.houseHand, plyaying: playing, status: status };
+    return { playerHand: game.playerHand, houseHand: game.houseHand, plyaying: playing, status: status };
     // button = document.getElementById("playAgain");
     // button.style.visibility = "visible";
 }

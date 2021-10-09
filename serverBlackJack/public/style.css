@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(255, 225, 142);
+  }
+  div {
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  main{
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  img{
+    padding: 10px;
+  }
+  .page{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-content: space-evenly;
+  }
+  .buttons{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    align-content: center;
+  
+    width: 25%;
+    padding: 10px;
+  }
+  .cards{ 
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    
+    width: 65%;
+    padding: 10px;
+  }
+  .player{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius:  30% 10% 30% 10%;
+    background-color: orange;
+  }
+  .opponent{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+  
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius:  30% 10% 30% 10%;
+    background-color: orange;
+  }
+  .result{
+    display: flex;
+    flex-flow: row, wrap;
+    justify-content: center;
+    align-content: center;
+  
+    width: 95%;
+  }
+  a img:last-child {
+    display: none;  
+  }
+  a:hover img:last-child {
+    display: block;  
+  }
+  a:hover img:first-child {
+    display: none;  
+  }
+  #playAgain{
+    visibility: hidden;
+  }
+  
