@@ -27,8 +27,9 @@ app.use(function (req, res, next) {
         let houseHand = [];
         dealToHand(houseHand, deck, 2);
         let playing = true;
+        let status = "";
 
-        req.session.game = {deck: deck, playerHand: playerHand, houseHand: houseHand, playing: playing};
+        req.session.game = {deck: deck, playerHand: playerHand, houseHand: houseHand, playing: playing, status: status};
     }
     next();
 });
@@ -140,7 +141,7 @@ function hit(game) {
             return endGame(game);
         }
     }
-    return { playerHand: game.playerHand, playing: game.playing, status: "no comment" };
+    return { playerHand: game.playerHand, houseHand: game.houseHand, playing: game.playing, status: "no comment" };
 }
 
 function earlyWinner(game) {
@@ -151,6 +152,7 @@ function earlyWinner(game) {
 
 function endGame(game) {
     // let body = document.body;
+    console.log("endgame??");
     let status = "";
     if (game.playing === true) {
         let playerScore = handValue(game.playerHand);
@@ -193,7 +195,9 @@ function endGame(game) {
     else {
         status = "oops";
     }
-    return { playerHand: game.playerHand, houseHand: game.houseHand, plyaying: playing, status: status };
+    let goose = { playerHand: game.playerHand, houseHand: game.houseHand, plyaying: playing, status: status };
+    resetLogic(game);
+    return goose;
     // button = document.getElementById("playAgain");
     // button.style.visibility = "visible";
 }

@@ -82,6 +82,55 @@ function removeChild(childHolder) {
     }
 }
 
+function showButton(isVisible, id){
+    let button = document.getElementById(id);
+    if(isVisible){
+    button.style.visibility = "visible";
+    }
+    else{
+        button.style.visibility = "hidden"
+    }
+}
+
+function updateDisplay(game){
+    // status: win loss bust push error
+    console.log(game);
+    displayHand(game.playerHand, "player", true);
+    displayHand(game.houseHand, "house", !game.playing);
+    if(game.status === ""){
+        showButton(false, "playAgain");
+        showButton(true, "hit");
+        showButton(true, "stand");
+    }
+    else if(game.status === "win"){
+        showButton(true, "playAgain");
+        showButton(false, "hit");
+        showButton(false, "stand");
+        addParagraph("result", game.status);
+    }
+    else if(game.status === "loss"){
+        showButton(true, "playAgain");
+        showButton(false, "hit");
+        showButton(false, "stand");
+        addParagraph("result", game.status);
+    }
+    else if(game.status === "bust"){
+        showButton(true,"playAgain");
+        showButton(false, "hit");
+        showButton(false, "stand");
+        addParagraph("result", game.status);
+    }
+    else if(game.status === "push"){
+        showButton(true, "playAgain");
+        showButton(false, "hit");
+        showButton(false, "stand");
+        addParagraph("result", game.status);
+    }
+    else{
+
+    }
+}
+
 function start() {
     fetch('/command', {
     method: 'POST',
@@ -96,9 +145,8 @@ function start() {
     .then(res => res.json())
     .then(game => {
         // enter you logic when the fetch is successful
-        console.log(game)
-        displayHand(game.playerHand, "player", true);
-        displayHand(game.houseHand, "house", false);
+        updateDisplay(game);
+        removeChild(result);
     })
     .catch(error => {
     // enter your logic for when there is an error (ex. error toast)
@@ -107,28 +155,26 @@ function start() {
 }
 
 function hit(){
-    fetch('/command', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-            body: JSON.stringify({
-            // your expected POST request payload goes here
-            command: "hit"
+        fetch('/command', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+                body: JSON.stringify({
+                // your expected POST request payload goes here
+                command: "hit"
+                })
             })
-        })
-        .then(res => res.json())
-        .then(game => {
-            // enter you logic when the fetch is successful
-            console.log(game)
-            displayHand(game.playerHand, "player", true);
-            displayHand(game.houseHand, "house", false);
-        })
-        .catch(error => {
-        // enter your logic for when there is an error (ex. error toast)
-            console.log(error)
-        })  
-}
+            .then(res => res.json())
+            .then(game => {
+                // enter you logic when the fetch is successful
+                updateDisplay(game);
+            })
+            .catch(error => {
+            // enter your logic for when there is an error (ex. error toast)
+                console.log(error)
+            })
+    }
 
 function stand(){
     fetch('/command', {
@@ -144,14 +190,13 @@ function stand(){
         .then(res => res.json())
         .then(game => {
             // enter you logic when the fetch is successful
-            console.log(game)
-            displayHand(game.playerHand, "player", true);
-            displayHand(game.houseHand, "house", false);
+            updateDisplay(game);
         })
         .catch(error => {
         // enter your logic for when there is an error (ex. error toast)
             console.log(error)
-        })  
+        }) 
+     
 }
 
 start();
