@@ -1,7 +1,12 @@
 const express = require('express');
+const { nanoid } = require('nanoid');
 //var session = require('express-session')
 const app = express();
 const port = 3000;
+
+let students = [];     // id, firstname, lastname
+let events = [];    // id, name, date, time, duration
+let signups = [];   // id, userId, eventId, signOut, signIn
 
 // const storage = require('node-persist');
 // const { nanoid } = require('nanoid')
@@ -14,31 +19,34 @@ app.use(express.json())
 // app.use('/', express.static(path.join(__dirname, 'public')));
 
 
-
-
-// Use the session middleware
-app.use(session({ 
-  secret: 'jkaswerwe,mnxzvdf3lkjsaldhf', 
-  cookie: { maxAge: 60000 },
-  resave: false,
-  saveUninitialized: false}))  
-
-app.listen(port, () => {
-    console.log(`Sign Out Server at http://localhost:${port}`)
+app.get('/students', (req, res)=>{
+    res.json(students);
 })
 
-app.get('/events', (req, res)=>{
-    res.json(stuff);
-})
+app.post('/students', (req, res)=>{
+    let student = {
+        id: nanoid(),
+        firstname: req.body.firstname,
+        lastname: req.body.lastname
+    };
 
-app.post('/events', (req, res)=>{
+    students.push(student);
+
+    res.status(201).json(student)
     //take data from body of post and add new event object to eveents
     //res.json("status");
 })
 
-let users = [];
-let events = [];
-let signups = [];
+app.get('/students/:id', (req, res)=>{
+    //find the student with the id req.params.id in the list of students, and return that student
+    for(student of students){
+        if(req.params.id === student.id){
+            res.status(200).json(student);
+            return;
+        }
+    }
+    res.status(404).json("oops");
+})
 
 /*
 create new event (post to /events) endpoints (url)
@@ -51,3 +59,25 @@ log in/out user ()
 get list of users for an event (get /signups or get /events/id/users)
  
 */
+//   /students  (get, post)                     done
+//   /events (get, post)
+//   /signups (get, post)
+//   /students/{id}   (get, patch, delete)
+//   /events/{id}   (get, patch, delete)
+//   /signups/{id}   (get, patch, delete)
+//   /students/{id}/events   (get)
+//   /events/{id}/students   (get)
+
+
+
+// // Use the session middleware
+// app.use(session({ 
+//     secret: 'jkaswerwe,mnxzvdf3lkjsaldhf', 
+//     cookie: { maxAge: 60000 },
+//     resave: false,
+//     saveUninitialized: false}))  
+  
+  app.listen(port, () => {
+      console.log(`Sign Out Server at http://localhost:${port}`)
+  })
+  
