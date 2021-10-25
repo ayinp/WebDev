@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const { nanoid } = require('nanoid');
 //var session = require('express-session')
@@ -19,11 +20,11 @@ app.use(express.json())
 // app.use('/', express.static(path.join(__dirname, 'public')));
 
 // STUDENTS
-app.get('/students', (req, res)=>{
+app.get('/students', (req, res) => {
     res.json(students);
 })
 
-app.post('/students', (req, res)=>{
+app.post('/students', (req, res) => {
     let student = {
         id: nanoid(),
         firstname: req.body.firstname,
@@ -37,9 +38,9 @@ app.post('/students', (req, res)=>{
 
 
 // STUDENTS ID
-app.get('/students/:id', (req, res)=>{
-    for(student of students){
-        if(req.params.id === student.id){
+app.get('/students/:id', (req, res) => {
+    for (student of students) {
+        if (req.params.id === student.id) {
             res.status(200).json(student);
             return;
         }
@@ -47,28 +48,45 @@ app.get('/students/:id', (req, res)=>{
     res.status(404).json("oops");
 })
 
-//will this work?
-app.delete('students/:id', (req, res)=>{
-    for(student of students){
-        if(req.params.id === student.id){
+app.delete('/students/:id', (req, res) => {
+    for (let i = 0; i < students.length; i++) {
+        if (req.params.id === students[i].id) {
+            students.splice(i, 1);
+            res.status(200).json("removed");
+            return;
+        }
+    }
+    res.status(404).json("oops");
+})
+
+app.patch('/students/:id', (req, res) => {
+    for (student of students) {
+        if (req.params.id === student.id) {
+            if (req.body.firstname) {
+                student.firstname = req.body.firstname;
+            }
+            if (req.body.lastname) {
+                student.lastname = req.body.lastname;
+            }
             res.status(200).json(student);
             return;
         }
     }
     res.status(404).json("oops");
 })
-// add patch
 
 
 // EVENTS
-app.get('/events', (req, res)=>{
+app.get('/events', (req, res) => {
     res.json(events);
 })
 
-app.post('/events', (req, res)=>{
+app.post('/events', (req, res) => {
     let newEvent = {
         id: nanoid(),
-        dateAndTime: req.body.dateAndTime,
+        date: req.body.date,
+        time: req.body.time,
+        duration: req.body.duration,
         name: req.body.name
     };
 
@@ -79,10 +97,9 @@ app.post('/events', (req, res)=>{
 
 
 // EVENTS ID
-app.get('/events/:id', (req, res)=>{
-    //find the student with the id req.params.id in the list of students, and return that student
-    for(newEvent of events){
-        if(req.params.id === newEvent.id){
+app.get('/events/:id', (req, res) => {
+    for (newEvent of events) {
+        if (req.params.id === newEvent.id) {
             res.status(200).json(newEvent);
             return;
         }
@@ -90,45 +107,66 @@ app.get('/events/:id', (req, res)=>{
     res.status(404).json("oops");
 })
 
-//will this work?
-app.delete('events/:id', (req, res)=>{
-    for(newEvent of events){
-        if(req.params.id === newEvent.id){
+app.delete('/events/:id', (req, res) => {
+    console.log("hewwo?")
+    for (let i = 0; i < events.length; i++) {
+        if (req.params.id === events[i].id) {
+            events.splice(i, 1);
+            res.status(200).json("removed");
+            return;
+        }
+    }
+    res.status(404).json("oops");
+})
+
+app.patch('/events/:id', (req, res) => {
+    for (newEvent of events) {
+        if (req.params.id === newEvent.id) {
+            if (req.body.date) {
+                newEvent.date = req.body.date;
+            }
+            if (req.body.time) {
+                newEvent.time = req.body.time;
+            }
+            if (req.body.duration) {
+                newEvent.duration = req.body.duration;
+            }
+            if (req.body.name) {
+                newEvent.name = req.body.name;
+            }
             res.status(200).json(newEvent);
             return;
         }
     }
     res.status(404).json("oops");
 })
-// add patch
+
 
 
 // SIGNUPS
-app.get('/signups', (req, res)=>{
+app.get('/signups', (req, res) => {
     res.json(signups);
 })
 
-app.post('/signups', (req, res)=>{
+app.post('/signups', (req, res) => {
     let signup = {
         id: nanoid(),
         studentId: req.body.studentId,
         eventId: req.body.eventId,
-        type: req.body.type //signout or signin
+        signIn: req.body.signIn,
+        signOut: req.body.signOut,
     };
 
-    events.push(newEvent);
+    signups.push(signup);
 
-    res.status(201).json(newEvent)
-    //take data from body of post and add new event object to eveents
-    //res.json("status");
+    res.status(201).json(signups)
 })
 
 
 // SIGNUPS ID
-app.get('/signups/:id', (req, res)=>{
-    //find the student with the id req.params.id in the list of students, and return that student
-    for(signup of signups){
-        if(req.params.id === signup.id){
+app.get('/signups/:id', (req, res) => {
+    for (signup of signups) {
+        if (req.params.id === signup.id) {
             res.status(200).json(signup);
             return;
         }
@@ -136,49 +174,72 @@ app.get('/signups/:id', (req, res)=>{
     res.status(404).json("oops");
 })
 
-//will this work?
-app.delete('signups/:id', (req, res)=>{
-    for(signup of signups){
-        if(req.params.id === signup.id){
+app.delete('/signups/:id', (req, res) => {
+    for (let i = 0; i < signups.length; i++) {
+        if (req.params.id === signups[i].id) {
+            signups.splice(i, 1);
+            res.status(200).json("removed");
+            return;
+        }
+    }
+    res.status(404).json("oops");
+})
+
+app.patch('/signups/:id', (req, res) => {
+    for (signup of signups) {
+        if (req.params.id === signup.id) {
+            if (req.body.signIn) {
+                signIn = req.body.signIn;
+            }
+            if (req.body.signOut) {
+                signOut = req.body.signOut;
+            }
             res.status(200).json(signup);
             return;
         }
     }
     res.status(404).json("oops");
 })
-// add patch
 
+function getEventById(id, type){
+    for (newEvent of type) {
+        if (id === newEvent.id) {
+            return newEvent;
+        }
+    }
+    return undefined;
+}
 
 // EVENTS A STUDENT IS SIGNED UP FOR
-app.get('/students/:id/events', (req, res)=>{
-    for(student of students){
-        if(req.params.id === student.id){
-            //look @ signups and determine what event ids (idk how to do that)
-            return;
+app.get('/students/:id/events', (req, res) => {
+    let studentEvents = [];
+    for (signup of signups) {
+        if (req.params.id === signups.studentId) {
+            studentEvents.push(getEventById(signups.eventId, events));
         }
     }
-    res.status(404).json("oops");
+    res.status(200).json(studentEvents);
 })
 
 
 // STUDENTS SIGNED UP FOR EVENTS
-app.get('/students/:id/events', (req, res)=>{
-    for(newEvent of events){
-        if(req.params.id === newEvent.id){
-            //look @ signups and determine what student ids (idk how to do that)
-            return;
+app.get('/students/:id/events', (req, res) => {
+    let eventStudents = [];
+    for (signup of signups) {
+        if (req.params.id === signups.eventId) {
+            eventStudents.push(getEventById(signups.studentId, students));
         }
     }
-    res.status(404).json("oops");
+    res.status(200).json(eventStudents);
 })
 
 
 //   /students  (get, post)                     done
 //   /events (get, post)                        done
 //   /signups (get, post)                       done
-//   /students/{id}   (get, patch, delete)      get done, dont know what patch does, delete maybe done
-//   /events/{id}   (get, patch, delete)        get done, dont know what patch does, delete maybe done
-//   /signups/{id}   (get, patch, delete)       get done, dont know what patch does, delete maybe done
+//   /students/{id}   (get, patch, delete)      done
+//   /events/{id}   (get, patch, delete)        done
+//   /signups/{id}   (get, patch, delete)       done
 //   /students/{id}/events   (get)              sort of done
 //   /events/{id}/students   (get)              sort of done
 
@@ -190,8 +251,7 @@ app.get('/students/:id/events', (req, res)=>{
 //     cookie: { maxAge: 60000 },
 //     resave: false,
 //     saveUninitialized: false}))  
-  
-  app.listen(port, () => {
-      console.log(`Sign Out Server at http://localhost:${port}`)
-  })
-  
+
+app.listen(port, () => {
+    console.log(`Sign Out Server23 at http://localhost:${port}`)
+})
