@@ -214,8 +214,9 @@ function getEventById(id, type){
 app.get('/students/:id/events', (req, res) => {
     let studentEvents = [];
     for (signup of signups) {
-        if (req.params.id === signups.studentId) {
-            studentEvents.push(getEventById(signups.eventId, events));
+        if (req.params.id === signup.studentId) {
+            console.log('gay');
+            studentEvents.push(getEventById(signup.eventId, events));
         }
     }
     res.status(200).json(studentEvents);
@@ -223,11 +224,11 @@ app.get('/students/:id/events', (req, res) => {
 
 
 // STUDENTS SIGNED UP FOR EVENTS
-app.get('/students/:id/events', (req, res) => {
+app.get('/events/:id/students', (req, res) => {
     let eventStudents = [];
     for (signup of signups) {
-        if (req.params.id === signups.eventId) {
-            eventStudents.push(getEventById(signups.studentId, students));
+        if (req.params.id === signup.eventId) {
+            eventStudents.push(getEventById(signup.studentId, students));
         }
     }
     res.status(200).json(eventStudents);
