@@ -15,9 +15,9 @@ let signups = [];   // id, userId, eventId, signOut, signIn
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-// const path = require('path');
-// // const { send } = require('process');
-// app.use('/', express.static(path.join(__dirname, 'public')));
+const path = require('path');
+const { send } = require('process');
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // STUDENTS
 app.get('/students', (req, res) => {
