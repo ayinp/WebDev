@@ -253,6 +253,29 @@ app.get('/events/:id/students', (req, res) => {
 //     resave: false,
 //     saveUninitialized: false}))  
 
+
+//fake data
+students = [
+    {  id: nanoid(),  firstName: "Greg", lastName: "Glerb" },
+    {  id: nanoid(),  firstName: "Bob", lastName: "Glerb" },
+    {  id: nanoid(),  firstName: "George", lastName: "Glerb" },
+    {  id: nanoid(),  firstName: "Hal", lastName: "Glerb" }
+];    // id, firstName, lastName
+
+events = [
+    {  id: nanoid(),  name:"Mikes Market", date:"", time:"", duration:"" }, 
+    {  id: nanoid(),  name:"Dugout", date:"", time:"", duration:"" }, 
+    {  id: nanoid(),  name:"Nature Trail", date:"", time:"", duration:"" }, 
+    {  id: nanoid(),  name:"Learning Center", date:"", time:"", duration:"" }
+];   // id, name, date, time, duration
+
+signups = [
+    {  id: nanoid(), studentId: students[2].id, eventId: events[2].id },
+    {  id: nanoid(), studentId: students[2].id, eventId: events[3].id },
+    {  id: nanoid(), studentId: students[1].id, eventId: events[1].id }
+];
+
+
 app.listen(port, () => {
     console.log(`Sign Out Server23 at http://localhost:${port}`)
 })
