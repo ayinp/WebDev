@@ -18,6 +18,10 @@ app.use(session({
 
 app.use(function (req, res, next){
     console.log(req.path)
+    if(req.path === "/loginStyle.css" || req.path === "/favicon.ico" || req.path === "/script.js"){
+        next();
+        return;
+    }
     if(req.path !== "/login.html" && req.session.username === undefined){
         res.redirect("/login.html");
         return;
@@ -29,10 +33,11 @@ function makeUsername(student){
     return student.firstName + student.lastName;
 }
 
+// make this for events and signups too
 app.post('/login.html', (req, res) =>{
     axios.get('/students')
     .then(response => {
-        console.log(":(");
+        console.log("hi studies");
         let s = response.data.find(student => makeUsername(student) === req.body.username)
         if(s){
             console.log("found user");
@@ -56,3 +61,4 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.listen(port, () => {
     console.log(`Sign Out Server23 at http://localhost:${port}`)
 })
+

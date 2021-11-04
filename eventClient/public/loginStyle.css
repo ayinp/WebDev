@@ -8,7 +8,7 @@ body{
     align-content: center;
 }
 
-.login, .signUp{
+.login .signUp{
     display: flex;
     flex-flow: column wrap;
     justify-content: space-around;
