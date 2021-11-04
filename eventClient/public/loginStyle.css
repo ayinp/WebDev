@@ -1,3 +1,28 @@
 body{
-    background-color: #fffbe3
+    background-color: #fff6c4;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+}
+
+.login, .signUp{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-around;
+    align-content: center;
+    gap: 10px;
+    background-color: #fff1a0; 
+    padding: 10px
+}
+
+
+form{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-around;
+    align-content: center;
+    gap: 5px;
 }

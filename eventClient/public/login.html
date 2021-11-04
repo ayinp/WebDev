@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
+
 <head>
-    <link rel="stylesheet" href="loginStyle.css">
+    <link rel="stylesheet" href="/loginStyle.css">
     <!-- <script defer src="loginScript.js"></script> -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>logIn/signUp</title>
 </head>
+
 <body>
-    <form action="/login.html" method=post>
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <input type="submit">
-    </form>
-    <form action="/login.html" method=post>
-        <input type="text" name="first name">
-        <input type="text" name="last name">
-        <input type="email" name="email">
-        <input type="password" name="password">
-        <input type="password" name="verify password">
-        <input type="submit">
-    </form>
+    <div class="login">
+        <h4>login</h4>
+        <form action="/login.html" method=post>
+            username: <input type="text" name="username">
+            password: <input type="password" name="password">
+            <input type="submit">
+        </form>
+    </div>
+    <div class="signUp">
+        <h4>sign up</h4>
+        <form action="/login.html" method=post>
+            first name: <input type="text" name="first name">
+            last name: <input type="text" name="last name">
+            email: <input type="email" name="email">
+            password: <input type="password" name="password">
+            verrify password: <input type="password" name="verify password">
+            <input type="submit">
+        </form>
+    </div>
 </body>
+
 </html>
