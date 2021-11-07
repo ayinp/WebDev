@@ -263,10 +263,10 @@ students = [
 ];    // id, firstName, lastName
 
 events = [
-    {  id: nanoid(),  name:"Mikes Market", date:"", time:"", duration:"" }, 
-    {  id: nanoid(),  name:"Dugout", date:"", time:"", duration:"" }, 
-    {  id: nanoid(),  name:"Nature Trail", date:"", time:"", duration:"" }, 
-    {  id: nanoid(),  name:"Learning Center", date:"", time:"", duration:"" }
+    {  id: nanoid(),  name:"Mikes Market", date:"3/1/2222", time:"7:30am", duration:"no!!!" }, 
+    {  id: nanoid(),  name:"Dugout", date:"never!", time:"your mom", duration:"sex amount of time" }, 
+    {  id: nanoid(),  name:"Nature Trail", date:"always", time:"when dr hamlin says so", duration:"always" }, 
+    {  id: nanoid(),  name:"Learning Center", date:"sunday-thursday", time:"6:30", duration:"2 hours (if you're a firstyear)" }
 ];   // id, name, date, time, duration
 
 signups = [

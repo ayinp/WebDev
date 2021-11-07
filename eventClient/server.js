@@ -57,6 +57,17 @@ app.post('/login.html', (req, res) =>{
     })
 })
 
+app.get('/events', (req, res) => {
+    axios.get('/events')
+    .then(response => {
+        res.json(response.data);
+    })
+    .catch(error => {
+        console.log("oops");
+        console.log(error);
+    })
+})
+
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.listen(port, () => {
     console.log(`Sign Out Server23 at http://localhost:${port}`)
