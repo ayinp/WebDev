@@ -14,7 +14,7 @@ app.use(session({
     cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false
-}));
+}))
 
 app.use(function (req, res, next){
     console.log(req.path)
@@ -30,7 +30,7 @@ app.use(function (req, res, next){
 })
 
 function makeUsername(student){
-    return student.firstName + student.lastName;
+    return student.firstname + student.lastname;
 }
 
 // make this for events and signups too
@@ -40,7 +40,7 @@ app.post('/login.html', (req, res) =>{
         console.log("hi studies");
         let s = response.data.find(student => makeUsername(student) === req.body.username)
         if(s){
-            console.log("found user");
+            console.log("found studie!! :)");
             req.session.username = makeUsername(s);
             req.session.id = s.id;
             res.redirect("/");
