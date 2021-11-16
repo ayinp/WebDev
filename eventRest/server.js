@@ -21,8 +21,8 @@ const path = require('path');
 const { send } = require('process');
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-let db = new sqlite3.Database('data.db');
 
+let db = new sqlite3.Database('data.db');
 
 // STUDENTS
 app.get('/students', (req, res) => {
@@ -33,38 +33,16 @@ app.post('/students', (req, res) => {
     postToDb('students', [nanoid(), req.body.firstname, req.body.lastname], res)
 })
 
-
-// STUDENTS ID
 app.get('/students/:id', (req, res) => {
     getFromDbWhere('students', req.params.id, res);
 })
 
 app.delete('/students/:id', (req, res) => {
-    for (let i = 0; i < students.length; i++) {
-        if (req.params.id === students[i].id) {
-            students.splice(i, 1);
-            res.status(200).json("removed");
-            return;
-        }
-    }
-    res.status(404).json("oops");
+    deleteFromDb('students', req.params.id, res)
 })
 
 app.patch('/students/:id', (req, res) => {
-    patchDb(req, res);
-    // for (student of students) {
-    //     if (req.params.id === student.id) {
-    //         if (req.body.firstname) {
-    //             student.firstname = req.body.firstname;
-    //         }
-    //         if (req.body.lastname) {
-    //             student.lastname = req.body.lastname;
-    //         }
-    //         res.status(200).json(student);
-    //         return;
-    //     }
-    // }
-    // res.status(404).json("oops");
+    patchDb('students', req, res);
 })
 
 
@@ -77,46 +55,17 @@ app.post('/events', (req, res) => {
     postToDb('events', [nanoid(), req.body.name, req.body.date, req.body.time, req.body.duration], res);
 })
 
-
-// EVENTS ID
 app.get('/events/:id', (req, res) => {
     getFromDbWhere('events', req.params.id, res);
 })
 
 app.delete('/events/:id', (req, res) => {
-    console.log("hewwo?")
-    for (let i = 0; i < events.length; i++) {
-        if (req.params.id === events[i].id) {
-            events.splice(i, 1);
-            res.status(200).json("removed");
-            return;
-        }
-    }
-    res.status(404).json("oops");
+    deleteFromDb('events', req.params.id, res)
 })
 
 app.patch('/events/:id', (req, res) => {
-    for (newEvent of events) {
-        if (req.params.id === newEvent.id) {
-            if (req.body.date) {
-                newEvent.date = req.body.date;
-            }
-            if (req.body.time) {
-                newEvent.time = req.body.time;
-            }
-            if (req.body.duration) {
-                newEvent.duration = req.body.duration;
-            }
-            if (req.body.name) {
-                newEvent.name = req.body.name;
-            }
-            res.status(200).json(newEvent);
-            return;
-        }
-    }
-    res.status(404).json("oops");
+    patchDb('events', req, res);
 })
-
 
 
 // SIGNUPS
@@ -128,37 +77,27 @@ app.post('/signups', (req, res) => {
     postToDb('signups', [nanoid(), req.body.studentId, req.body.eventId], res)
 })
 
-
-// SIGNUPS ID
 app.get('/signups/:id', (req, res) => {
     getFromDbWhere('signups', req.params.id, res);
 })
 
 app.delete('/signups/:id', (req, res) => {
-    for (let i = 0; i < signups.length; i++) {
-        if (req.params.id === signups[i].id) {
-            signups.splice(i, 1);
-            res.status(200).json("removed");
-            return;
-        }
-    }
-    res.status(404).json("oops");
+    deleteFromDb('signups', req.params.id, res)
 })
 
 app.patch('/signups/:id', (req, res) => {
-    for (signup of signups) {
-        if (req.params.id === signup.id) {
-            if (req.body.signIn) {
-                signIn = req.body.signIn;
-            }
-            if (req.body.signOut) {
-                signOut = req.body.signOut;
-            }
-            res.status(200).json(signup);
-            return;
-        }
-    }
-    res.status(404).json("oops");
+    patchDb('signups', req, res);
+})
+
+
+// EVENTS A STUDENT IS SIGNED UP FOR
+app.get('/students/:id/events', (req, res) => {
+    getSpecificsFromDb('students', 'events', req.params.id, res)
+})
+
+// STUDENTS SIGNED UP FOR EVENTS
+app.get('/events/:id/students', (req, res) => {
+    getSpecificsFromDb('events', 'students', req.params.id, res)
 })
 
 function getEventById(id, type) {
@@ -169,30 +108,6 @@ function getEventById(id, type) {
     }
     return undefined;
 }
-
-// EVENTS A STUDENT IS SIGNED UP FOR
-app.get('/students/:id/events', (req, res) => {
-    let studentEvents = [];
-    for (signup of signups) {
-        if (req.params.id === signup.studentId) {
-            console.log('gay');
-            studentEvents.push(getEventById(signup.eventId, events));
-        }
-    }
-    res.status(200).json(studentEvents);
-})
-
-
-// STUDENTS SIGNED UP FOR EVENTS
-app.get('/events/:id/students', (req, res) => {
-    let eventStudents = [];
-    for (signup of signups) {
-        if (req.params.id === signup.eventId) {
-            eventStudents.push(getEventById(signup.studentId, students));
-        }
-    }
-    res.status(200).json(eventStudents);
-})
 
 function getFromDbWhere(table, where, res) {
     let selection = 'select * from ' + table + ' where id=?;';
@@ -225,26 +140,72 @@ function postToDb(table, values, res){
     let insertion = 'INSERT INTO ' + table +  ' VALUES (' + x + ');';  
     console.log(insertion);
     console.log(values);
-    db.run(insertion, values, function (err, rows) {
+    db.run(insertion, values, function (err, row) {
         if(err) {
             console.log(err.message);
             res.status(400).json('oops');
         }
         else{
-            res.status(200).json(rows);
+            res.status(200).json(row);
         }
     })
 }
 
-function patchDb(table, values, req, res){
-    //object.entries(x) gives array of names and values - first is name second is value)
+function patchDb(table, req, res){
     let namesAndValues = Object.entries(req.body);
     console.log(namesAndValues);
-    let assignments = namesAndValues.map((form) => {
-        return form[0] + " = ?";
+    let values = [];
+    let assignments = namesAndValues.map(([names, value]) => {
+        values.push(value);
+        return names + " = ?";
     })
     console.log(assignments.join(", "));
-    
+    let patchion = "UPDATE " + table + " SET " + assignments.join(", ") + " WHERE id = " + req.params.id;
+    console.log(patchion);
+    db.run(patchion, values, function(err, row){
+        if(err){
+            console.log(err.message);
+            res.status(400).json('oops');
+        }
+        else{
+            res.status(200).json(row);
+        }
+    }) 
+}
+
+function deleteFromDb(table, where, res){
+    let deletion = "DELETE FROM " + table + " WHERE id=?"
+    db.run(deletion, [where], function(err, row){
+        if(err){
+            console.log(err.message);
+            res.status(400).json('oops');
+        }
+        else{
+            res.status(200).json(row);
+        }
+    })
+}
+
+function getSpecificsFromDb(tableDom, tableSub, where, res){ 
+        let specification = "SELECT students.firstname, students.lastname, events.name FROM "  + tableDom + 
+        " JOIN signups on " + tableDom + ".id = " + tableNameSingular(tableDom) + "_id JOIN " +
+        tableSub + " on " + tableNameSingular(tableSub) + "_id " + " = " + tableSub + ".id WHERE " + tableDom + ".id=?" 
+        console.log(specification);
+        console.log(where);
+        db.all(specification, where, function(err, rows){
+            if(err){
+                console.log(err.message);
+                res.status(400).json('oops');
+            }
+            else{
+                res.status(200).json(rows);
+            }
+        })
+}
+
+function tableNameSingular(tableName){
+    return tableName.substring(0, tableName.length-1);
+
 }
 
 // // Use the session middleware
