@@ -7,10 +7,6 @@ const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const port = 3000;
 
-let students = [];     // id, firstname, lastname
-let events = [];    // id, name, date, time, duration
-let signups = [];   // id, userId, eventId, signOut, signIn
-
 // const storage = require('node-persist');
 // const { nanoid } = require('nanoid')
 
@@ -92,22 +88,15 @@ app.patch('/signups/:id', (req, res) => {
 
 // EVENTS A STUDENT IS SIGNED UP FOR
 app.get('/students/:id/events', (req, res) => {
-    getSpecificsFromDb('students', 'events', req.params.id, res)
+    specsFromDbBetter('students', 'events', req.params.id, res);
+    // getSpecificsFromDb('students', 'events', req.params.id, res)
 })
 
 // STUDENTS SIGNED UP FOR EVENTS
 app.get('/events/:id/students', (req, res) => {
-    getSpecificsFromDb('events', 'students', req.params.id, res)
+    specsFromDbBetter('events', 'students', req.params.id, res);
+    // getSpecificsFromDb('events', 'students', req.params.id, res)
 })
-
-function getEventById(id, type) {
-    for (newEvent of type) {
-        if (id === newEvent.id) {
-            return newEvent;
-        }
-    }
-    return undefined;
-}
 
 function getFromDbWhere(table, where, res) {
     let selection = 'select * from ' + table + ' where id=?;';
@@ -201,6 +190,27 @@ function getSpecificsFromDb(tableDom, tableSub, where, res){
                 res.status(200).json(rows);
             }
         })
+}
+
+function specsFromDbBetter(tableDom, tableSub, where, res){
+    let name = "";
+    if(tableDom === "events"){
+        name = "lastname";
+    }
+    else{
+        name = "name";
+    }
+    let specification = "SELECT " + tableSub + "." + name + " FROM " + tableSub + " JOIN signups on " + tableSub + ".id = " + 
+    tableNameSingular(tableSub) + "_id WHERE " + tableNameSingular(tableDom) + "_id =?";
+    db.all(specification, where, function(err, rows){
+        if(err){
+            console.log(err.message);
+            res.status(400).json('oops');
+        }
+        else{
+            res.status(200).json(rows);
+        }
+    })
 }
 
 function tableNameSingular(tableName){
