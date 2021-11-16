@@ -28,6 +28,10 @@ function start() {
         })
 }
 
+function signup(){
+    
+}
+
 function anchor(name, url) {
     let anchor = document.createElement('a');
     anchor.href = url;
@@ -35,11 +39,13 @@ function anchor(name, url) {
     return anchor;
 }
 
-
 function listItem(child) {
     console.log(typeof child);
     let li = document.createElement('li');
-    if (typeof child === "string") {
+    if(!child){
+        li.innerText = "null";
+    }
+    else if (typeof child === "string") {
         li.innerText = child;
     }
     else {
