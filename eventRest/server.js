@@ -194,13 +194,7 @@ function getSpecificsFromDb(tableDom, tableSub, where, res){
 
 function specsFromDbBetter(tableDom, tableSub, where, res){
     let name = "";
-    if(tableDom === "events"){
-        name = "lastname";
-    }
-    else{
-        name = "name";
-    }
-    let specification = "SELECT " + tableSub + "." + name + " FROM " + tableSub + " JOIN signups on " + tableSub + ".id = " + 
+    let specification = "SELECT " + tableSub +  ".* from " + tableSub + " JOIN signups on " + tableSub + ".id = " + 
     tableNameSingular(tableSub) + "_id WHERE " + tableNameSingular(tableDom) + "_id =?";
     db.all(specification, where, function(err, rows){
         if(err){

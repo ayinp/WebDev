@@ -25,7 +25,9 @@
 -- ("4", "5", "5"),
 -- ("5", "2", "2");
 
-select s.firstname, s.lastname, events.name eventname, signups.id signup_id from students s 
-join signups on s.id = student_id
-join events on event_id = events.id where s.id = 1
+-- select s.firstname, s.lastname, events.name eventname, signups.id signup_id from students s 
+-- join signups on s.id = student_id
+-- join events on event_id = events.id where s.id = 1
+
+
 

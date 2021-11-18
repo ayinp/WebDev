@@ -17,7 +17,6 @@ app.use(session({
 }))
 
 app.use(function (req, res, next){
-    console.log(req.path)
     if(req.path === "/loginStyle.css" || req.path === "/favicon.ico" || req.path === "/script.js"){
         next();
         return;
