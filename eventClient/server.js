@@ -28,9 +28,20 @@ app.use(function (req, res, next){
     next();
 })
 
-function makeUsername(student){
-    return student.firstname + student.lastname;
-}
+app.post('/signups', (req, res) => {
+    console.log("------------------------------------------------------------------------------------------------")
+    console.log(req.session);
+    axios.post('/signups', {studentId: req.session.studentId, eventId: req.body.eventId})
+    .then(response => {
+        console.log(response);
+        res.json({status: "ok ig :/"});
+    })
+    .catch(error => {
+        console.log("oops");
+        console.log(error);
+        res.status(400).json("urgle urgle :( \n" + error);
+    })
+})
 
 // make this for events and signups too
 app.post('/login.html', (req, res) =>{
@@ -40,8 +51,9 @@ app.post('/login.html', (req, res) =>{
         let s = response.data.find(student => makeUsername(student) === req.body.username)
         if(s){
             console.log("found studie!! :)");
+            console.log(s);
             req.session.username = makeUsername(s);
-            req.session.id = s.id;
+            req.session.studentId = s.id;
             res.redirect("/");
         }
         else{
@@ -66,6 +78,11 @@ app.get('/events', (req, res) => {
         console.log(error);
     })
 })
+
+
+function makeUsername(student){
+    return student.firstname + student.lastname;
+}
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.listen(port, () => {
