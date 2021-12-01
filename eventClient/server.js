@@ -43,6 +43,21 @@ app.post('/signups', (req, res) => {
     })
 })
 
+app.post('/signUp/:id', (req, res) => {
+    console.log("------------------------------------------------------------------------------------------------")
+    console.log(req.session);
+    axios.patch('/signups/:id', req.body)
+    .then(response => {
+        console.log(response);
+        res.json({status: "ok ig :/"});
+    })
+    .catch(error => {
+        console.log("oops");
+        console.log(error);
+        res.status(400).json("urgle urgle :( \n" + error);
+    })
+})
+
 // make this for events and signups too
 app.post('/login.html', (req, res) =>{
     axios.get('/students')
