@@ -15,6 +15,7 @@ function start() {
                     let info = [listItem(newEvent.name), listItem(newEvent.date), listItem(newEvent.time), listItem(newEvent.duration)];
                     addChildren(info, "eventDetails")
                 }
+                if(getQueryParam("event") === newEvent.id && )
             }
         })
         .catch(error => {
@@ -44,6 +45,9 @@ function signUp(){
     })
 }
 
+function getStudentId(){
+    
+}
 
 function anchor(name, url) {
     let anchor = document.createElement('a');

@@ -1,4 +1,5 @@
 const express = require('express');
+const pug = require ('pug');
 // const { nanoid } = require('nanoid');
 const app = express();
 const port = 7000;
@@ -15,9 +16,20 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+app.get("/pugtest", (req, res) => {
+    axios.get('/events')
+    .then(responce => {
+        let theEvent = 
+        res.render("pug", {name: "greg :/", stuff: responce.data});
+    })
+
+})
 
 app.use(function (req, res, next){
-    if(req.path === "/loginStyle.css" || req.path === "/favicon.ico" || req.path === "/script.js"){
+    if(req.path === "/loginStyle.css" || req.path === "/favicon.ico" || req.path === "/script.js"|| req.path === "/views/pug.pug"){
         next();
         return;
     }
@@ -29,8 +41,6 @@ app.use(function (req, res, next){
 })
 
 app.post('/signups', (req, res) => {
-    console.log("------------------------------------------------------------------------------------------------")
-    console.log(req.session);
     axios.post('/signups', {studentId: req.session.studentId, eventId: req.body.eventId})
     .then(response => {
         console.log(response);
@@ -44,8 +54,6 @@ app.post('/signups', (req, res) => {
 })
 
 app.post('/signUp/:id', (req, res) => {
-    console.log("------------------------------------------------------------------------------------------------")
-    console.log(req.session);
     axios.patch('/signups/:id', req.body)
     .then(response => {
         console.log(response);
@@ -56,6 +64,11 @@ app.post('/signUp/:id', (req, res) => {
         console.log(error);
         res.status(400).json("urgle urgle :( \n" + error);
     })
+})
+
+app.get('/myEvents', (req, res) => {
+    axios.get('/students/:id/events')
+    .then
 })
 
 // make this for events and signups too
