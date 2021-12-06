@@ -80,7 +80,22 @@ function signIn(){
 }
 
 function signOut(){
-
+    fetch('/signOut', {
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            eventId: getQueryParam("event")
+        })
+    })
+    // .then(res => res.json())
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.log(error)
+    })
 }
 
 function anchor(name, url) {

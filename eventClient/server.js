@@ -53,8 +53,31 @@ app.post('/signups', (req, res) => {
     })
 })
 
-app.patch('/signin', (req, res) => {
-    axios.patch('/signups', {})
+app.patch('/signIn', (req, res) => {
+    let signUp = req.session.myEvents.eventId.find(event => event.eventId === req.body.eventId)
+    axios.patch('/signups/' + signUp.signupId, {sign_in: "yes"})
+    .then(responce => {
+        res.json(responce).status(200)
+    })
+    .catch(error => {
+        console.log("oops");
+        console.log(error);
+        res.status(400)
+    })
+})
+
+app.patch('/signOut', (req, res) => {
+    console.log("someones trying to patch me !!! D:")
+    let signUp = req.session.myEvents.eventId.find(event => event.eventId === req.body.eventId)
+    axios.patch('/signups/' + signUp.signupId, {sign_out: "yes"})
+    .then(responce => {
+        res.json(responce).status(200)
+    })
+    .catch(error => {
+        console.log("oops");
+        console.log(error);
+        res.status(400)
+    })
 })
 
 app.post('/signUp/:id', (req, res) => {
@@ -66,7 +89,7 @@ app.post('/signUp/:id', (req, res) => {
     .catch(error => {
         console.log("oops");
         console.log(error);
-        res.status(400).json("urgle urgle :( \n" + error);
+        res.status(400).json(error);
     })
 })
 
@@ -74,8 +97,8 @@ app.get('/myEvents', (req, res) => {
     axios.get('/students/' + req.session.studentId + '/events')
     .then(response => {
         console.log(response.data);
+        req.session.myEvents = response.data;
         res.json(response.data).status(200);
-        
     })
     .catch(error => {
         console.log("oops");
