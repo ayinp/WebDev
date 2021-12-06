@@ -10,43 +10,77 @@ function start() {
             console.log(events);
             for (newEvent of events) {
                 let li = listItem(anchor(newEvent.name, "/?event=" + newEvent.id));
-                addChildren(li, "events");
+                addChildren(li, "allEvents");
                 if (getQueryParam("event") === newEvent.id) {
                     let info = [listItem(newEvent.name), listItem(newEvent.date), listItem(newEvent.time), listItem(newEvent.duration)];
+                    console.log(newEvent);
                     addChildren(info, "eventDetails")
+                    things.style.visibility = "visible";
                 }
-                if(getQueryParam("event") === newEvent.id && )
             }
         })
         .catch(error => {
             // enter your logic for when there is an error (ex. error toast)
             console.log(error)
         })
+
+    fetch('/myEvents', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(res => res.json())
+        .then(events => {
+            console.log(events);
+            for (newEvent of events) {
+                let li = listItem(anchor(newEvent.name, "/?event=" + newEvent.id));
+                addChildren(li, "myEvents");
+            }
+        })
 }
 
-function signUp(){
-    fetch('/signups',{
+function signUp() {
+    fetch('/signups', {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-        eventId: getQueryParam("event")
+            eventId: getQueryParam("event")
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            location.replace('/');
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+function signIn(){
+    fetch('/signIn', {
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            eventId: getQueryParam("event")
         })
     })
     .then(res => res.json())
     .then(data => {
-        //enter logic stuffs for successful fetching
         console.log(data);
     })
     .catch(error => {
-        // enter your logic for when there is an error (ex. error toast)
         console.log(error)
     })
 }
 
-function getStudentId(){
-    
+function signOut(){
+
 }
 
 function anchor(name, url) {
@@ -59,7 +93,7 @@ function anchor(name, url) {
 function listItem(child) {
     console.log(typeof child);
     let li = document.createElement('li');
-    if(!child){
+    if (!child) {
         li.innerText = "null";
     }
     else if (typeof child === "string") {
@@ -73,7 +107,7 @@ function listItem(child) {
 
 function addChildren(children, placeId) {
     place = document.getElementById(placeId);
-    
+
     if (Array.isArray(children)) {
         for (child of children) {
             place.appendChild(child)
@@ -103,7 +137,7 @@ function removeChildren(whatChilds, placeId) {
     // }
 }
 
-function getQueryParam(name){
+function getQueryParam(name) {
     let params = new URLSearchParams(document.location.search.substring(1));
     return params.get(name);
 }

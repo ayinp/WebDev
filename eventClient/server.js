@@ -41,7 +41,7 @@ app.use(function (req, res, next){
 })
 
 app.post('/signups', (req, res) => {
-    axios.post('/signups', {studentId: req.session.studentId, eventId: req.body.eventId})
+    axios.post('/signups', {studentId: req.session.studentId, eventId: req.body.eventId, signIn: null, signOut: null})
     .then(response => {
         console.log(response);
         res.json({status: "ok ig :/"});
@@ -51,6 +51,10 @@ app.post('/signups', (req, res) => {
         console.log(error);
         res.status(400).json("urgle urgle :( \n" + error);
     })
+})
+
+app.patch('/signin', (req, res) => {
+    axios.patch('/signups', {})
 })
 
 app.post('/signUp/:id', (req, res) => {
@@ -67,8 +71,16 @@ app.post('/signUp/:id', (req, res) => {
 })
 
 app.get('/myEvents', (req, res) => {
-    axios.get('/students/:id/events')
-    .then
+    axios.get('/students/' + req.session.studentId + '/events')
+    .then(response => {
+        console.log(response.data);
+        res.json(response.data).status(200);
+        
+    })
+    .catch(error => {
+        console.log("oops");
+        console.log(error);
+    })
 })
 
 // make this for events and signups too

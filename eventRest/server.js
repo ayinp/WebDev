@@ -70,7 +70,7 @@ app.get('/signups', (req, res) => {
 })
 
 app.post('/signups', (req, res) => {
-    postToDb('signups', [nanoid(), req.body.studentId, req.body.eventId], res)
+    postToDb('signups', [nanoid(), req.body.studentId, req.body.eventId, req.body.singIn, req.body.signOut], res)
 })
 
 app.get('/signups/:id', (req, res) => {
@@ -194,8 +194,9 @@ function getSpecificsFromDb(tableDom, tableSub, where, res){
 
 function specsFromDbBetter(tableDom, tableSub, where, res){
     let name = "";
-    let specification = "SELECT " + tableSub +  ".* from " + tableSub + " JOIN signups on " + tableSub + ".id = " + 
+    let specification = "SELECT " + tableSub +  ".*, signups.id signupId from " + tableSub + " JOIN signups on " + tableSub + ".id = " + 
     tableNameSingular(tableSub) + "_id WHERE " + tableNameSingular(tableDom) + "_id =?";
+    console.log(specification);
     db.all(specification, where, function(err, rows){
         if(err){
             console.log(err.message);
