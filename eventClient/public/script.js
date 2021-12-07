@@ -42,7 +42,7 @@ function start() {
 
 function signUp() {
     fetch('/signups', {
-        method: 'post',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -62,7 +62,7 @@ function signUp() {
 
 function signIn(){
     fetch('/signIn', {
-        method: 'patch',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -81,7 +81,7 @@ function signIn(){
 
 function signOut(){
     fetch('/signOut', {
-        method: 'patch',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },

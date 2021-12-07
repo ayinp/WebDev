@@ -54,10 +54,10 @@ app.post('/signups', (req, res) => {
 })
 
 app.patch('/signIn', (req, res) => {
-    let signUp = req.session.myEvents.eventId.find(event => event.eventId === req.body.eventId)
+    let signUp = req.session.myEvents.find(event => event.id === req.body.eventId)
     axios.patch('/signups/' + signUp.signupId, {sign_in: "yes"})
     .then(responce => {
-        res.json(responce).status(200)
+        res.status(200).json(responce.data)
     })
     .catch(error => {
         console.log("oops");
@@ -68,10 +68,10 @@ app.patch('/signIn', (req, res) => {
 
 app.patch('/signOut', (req, res) => {
     console.log("someones trying to patch me !!! D:")
-    let signUp = req.session.myEvents.eventId.find(event => event.eventId === req.body.eventId)
+    let signUp = req.session.myEvents.find(event => event.id === req.body.eventId)
     axios.patch('/signups/' + signUp.signupId, {sign_out: "yes"})
     .then(responce => {
-        res.json(responce).status(200)
+        res.status(200).json(responce.data)
     })
     .catch(error => {
         console.log("oops");
