@@ -11,7 +11,6 @@
 </head>
 
 <body>
-    <form style="display: inline" action="/createEvent"method="get"><button>Create Event</button></form>
     <div class = events>
         <h3>Events</h3>
             <section id = "allEvents">
@@ -20,13 +19,16 @@
             <section id = myEvents>
             </section>
     </div>
-    <div id = things class = things>
+    <div class = eventStuff>
+        <form style="display: inline" action="/createEvent"method="get"><button>Create Event</button></form>
+        <div id = things class = things>
         <h3>Event Details</h3>
         <section id = "eventDetails">
         </section>
         <button onClick="signUp()">Sign Up</button>
         <button onClick="signIn()">Sign In</button>
         <button onClick="signOut()">Sign Out</button>
+        </div>
     </div>
 </body>
 

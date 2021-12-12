@@ -1,6 +1,48 @@
 body{
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    overflow: hidden;
+
     background-color: lightblue;
 }
-div.things{
+
+button{
+    width: 50%;
+    background-color:rgb(132, 163, 255)
+}
+
+.events{
+    display: flex;
+    flex-flow: column wrap;
+    width: 45%;
+    border: solid rgb(116, 220, 255) 2px;
+    justify-content: center;
+    align-content: center;
+
+    background-color: rgb(151, 223, 247);
+}
+
+.eventStuff{
+    display: flex;
+    flex-flow: column wrap;
+    width: 45%;
+    border: solid rgb(116, 220, 255) 2px;
+    justify-content: center;
+    align-content: center;
+
+    background-color: rgb(151, 223, 247);
+}
+
+.things{
+    display: flex;
+    flex-flow: column wrap;
+    width: 45%;
+    border: solid rgb(116, 220, 255) 2px;
+    justify-content: center;
+    align-content: center;
+
+    background-color: rgb(151, 223, 247);
     visibility: hidden;
 }
