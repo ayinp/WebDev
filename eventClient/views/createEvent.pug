@@ -1,0 +1,12 @@
+body
+    h1= "create an event!"
+    form(action="/createEvent" method="POST")
+        p Name:
+            input(type="text" name="name" placeholder="")
+        p Date:
+            input(type="text" name="date" placeholder="")
+        p Time:
+            input(type="text" name="time" placeholder="")
+        p Duration:
+            input(type="text" name="duration" placeholder="")
+        input(type="submit")
